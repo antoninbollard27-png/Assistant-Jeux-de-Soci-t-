@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+    <!-- ==========================================================
+         INFORMATIONS DE BASE DE LA PAGE
+    =========================================================== -->
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Assistant Jeux de Société
+    </title>
+    <!-- Chargement du fichier CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ==========================================================
+                        EN-TÊTE
+=========================================================== -->
+<header>
+    <h1>
+        Assistant Jeux
+    </h1>
+    <p>
+        Calcul de points et tirage au sort
+    </p>
+</header>
+
+<main>
+    <!-- ==========================================================
+                             PAGE D'ACCUEIL
+    =========================================================== -->
+    <section id="menu">
+        <h2>
+            Choisir un mode
+        </h2>
+
+        <!--
+            Mode uniquement tirage.
+        -->
+        <button onclick="choisirMode('tirage')">
+            Tirage
+        </button>
+
+        <!--
+            Mode uniquement calcul.
+        -->
+        <button onclick="choisirMode('calcul')">
+            Points
+        </button>
+        <!--
+            Mode complet.
+
+            Déroulement prévu :
+
+            Joueurs
+                 ↓
+            Tirage
+                 ↓
+            Calcul des points
+        -->
+        <button onclick="choisirMode('complet')">
+            Tirage + Points
+        </button>
+    </section>
+    <!-- ==========================================================
+                          AJOUT DES JOUEURS
+    =========================================================== -->
+
+    <section
+            id="joueurs"
+            class="cache">
+
+        <h2>
+            Ajouter les joueurs
+        </h2>
+
+        <!-- Zone où le joueur écrit un prénom -->
+        <input
+                type="text"
+                id="nomJoueur"
+                placeholder="Prénom du joueur">
+
+        <!-- Ajoute le prénom dans la liste -->
+        <button onclick="ajouterJoueur()">
+            Ajouter
+        </button>
+
+        <ul id="listeJoueurs">
+        </ul>
+
+        <!-- Passe à l'étape suivante -->
+        <button onclick="continuer()">
+            Continuer
+        </button>
+    </section>
+
+    <!-- ==========================================================
+                             ROUE DE TIRAGE
+    =========================================================== -->
+
+    <section
+            id="tirage"
+            class="cache">
+
+        <h2>
+            Tirage au sort
+        </h2>
+
+        <!-- Conteneur permettant de positionner
+             correctement la flèche -->
+        <div id="roueContainer">
+
+            <!--
+                CANVAS
+            -->
+            <canvas
+                    id="roue"
+                    width="400"
+                    height="400">
+            </canvas>
+
+            <!-- Indicateur du gagnant -->
+            <div id="fleche">
+                ▼
+            </div>
+        </div>
+
+        <!-- Lance l'animation -->
+        <button onclick="lancerTirage()">
+            🎲 Lancer la roue
+        </button>
+
+        <!-- Résultat affiché après animation -->
+        <h2 id="gagnant"></h2>
+        <button id="continuerTirage" onclick="passerAuCalcul()" style="display:none;">
+            Continuer
+        </button>
+    </section>
+
+    <!-- ==========================================================
+                             CALCUL DES POINTS
+    =========================================================== -->
+
+    <section id="calcul" class="cache">
+
+        <h2>
+            Calcul des points
+        </h2>
+
+        <!--
+            Les cartes des joueurs seront automatiquement
+            créées par JavaScript dans cette zone.
+        -->
+
+        <div id="listeScores">
+
+        </div>
+
+    </section>
+
+    <!-- ==========================================================
+                             RESULTAT FINAL
+    =========================================================== -->
+    <section
+            id="resultat"
+            class="cache">
+
+        <h2>
+            Résultat
+        </h2>
+
+        <p id="texteResultat">
+        </p>
+    </section>
+
+    <!-- ==========================================================
+                             BOUTON RETOUR
+    =========================================================== -->
+    <button
+            id="retour"
+            onclick="retour()"
+            class="cache">
+        ⬅ Retour
+    </button>
+
+</main>
+
+<script src="script.js"></script>
+
+</body>
+</html>
