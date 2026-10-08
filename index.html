@@ -1,60 +1,45 @@
 <!DOCTYPE html>
-
 <html lang="fr">
-
 <head>
     <!-- ==========================================================
          INFORMATIONS DE BASE DE LA PAGE
     =========================================================== -->
     <meta charset="UTF-8">
-
-    <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0">
-
-    <title>
-        Assistant Jeux de Société
-    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistant Jeux de Société</title>
     <!-- Chargement du fichier CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 
+
 <body>
 
 <!-- ==========================================================
-                        EN-TÊTE
+                         EN-TÊTE
 =========================================================== -->
 <header>
-    <h1>
-        Assistant Jeux
-    </h1>
-    <p>
-        Calcul de points et tirage au sort
-    </p>
+    <h1>Assistant Jeux</h1>
+    <p>Calcul de points et tirage au sort</p>
 </header>
 
+
+<!-- ==========================================================
+                         CONTENU PRINCIPAL
+=========================================================== -->
 <main>
+
     <!-- ==========================================================
                              PAGE D'ACCUEIL
     =========================================================== -->
     <section id="menu">
-        <h2>
-            Choisir un mode
-        </h2>
+        <h2>Choisir un mode</h2>
 
-        <!--
-            Mode uniquement tirage.
-        -->
-        <button onclick="choisirMode('tirage')">
-            Tirage
-        </button>
+        <!-- Mode uniquement tirage. -->
+        <button onclick="choisirMode('tirage')">Tirage</button>
 
-        <!--
-            Mode uniquement calcul.
-        -->
-        <button onclick="choisirMode('calcul')">
-            Points
-        </button>
+        <!-- Mode uniquement calcul. -->
+        <button onclick="choisirMode('calcul')">Points</button>
+
         <!--
             Mode complet.
 
@@ -66,155 +51,99 @@
                  ↓
             Calcul des points
         -->
-        <button onclick="choisirMode('complet')">
-            Tirage + Points
-        </button>
+        <button onclick="choisirMode('complet')">Tirage + Points</button>
     </section>
+
+
     <!-- ==========================================================
                           AJOUT DES JOUEURS
     =========================================================== -->
-
-    <section
-            id="joueurs"
-            class="cache">
-
-        <h2>
-            Ajouter les joueurs
-        </h2>
+    <section id="joueurs" class="cache">
+        <h2>Ajouter les joueurs</h2>
 
         <!-- Zone où le joueur écrit un prénom -->
-        <input
-                type="text"
-                id="nomJoueur"
-                placeholder="Prénom du joueur">
+        <input type="text" id="nomJoueur" placeholder="Prénom du joueur">
 
         <!-- Ajoute le prénom dans la liste -->
-        <button onclick="ajouterJoueur()">
-            Ajouter
-        </button>
+        <button onclick="ajouterJoueur()">Ajouter</button>
 
         <ul id="listeJoueurs">
         </ul>
 
         <!-- Passe à l'étape suivante -->
-        <button onclick="continuer()">
-            Continuer
-        </button>
+        <button onclick="continuer()">Continuer</button>
     </section>
 
+
     <!-- ==========================================================
-                             ROUE DE TIRAGE
+                           ROUE DE TIRAGE
     =========================================================== -->
+    <section id="tirage" class="cache">
+        <h2>Tirage au sort</h2>
 
-    <section
-            id="tirage"
-            class="cache">
-
-        <h2>
-            Tirage au sort
-        </h2>
-
-        <!-- Conteneur permettant de positionner
-             correctement la flèche -->
+        <!-- Conteneur permettant de positionner correctement la flèche -->
         <div id="roueContainer">
 
-            <!--
-                CANVAS
-            -->
-            <canvas
-                    id="roue"
-                    width="400"
-                    height="400">
+            <!-- CANVAS -->
+            <canvas id="roue" width="400" height="400">
             </canvas>
 
             <!-- Indicateur du gagnant -->
-            <div id="fleche">
-                ▼
-            </div>
+            <div id="fleche">▼</div>
         </div>
 
         <!-- Lance l'animation -->
-        <button onclick="lancerTirage()">
-            🎲 Lancer la roue
-        </button>
+        <button onclick="lancerTirage()">🎲 Lancer la roue</button>
 
         <!-- Résultat affiché après animation -->
         <h2 id="gagnant"></h2>
-        <button id="continuerTirage" onclick="passerAuCalcul()" style="display:none;">
-            Continuer
-        </button>
+
+        <button id="continuerTirage" onclick="passerAuCalcul()" style="display:none;">Continuer</button>
     </section>
 
+
     <!-- ==========================================================
-                             CALCUL DES POINTS
+                         CALCUL DES POINTS
     =========================================================== -->
     <section id="choixClassement" class="cache">
+        <h2>Choisir le classement</h2>
 
-        <h2>
-            Choisir le classement
-        </h2>
+        <button onclick="choisirClassement('plusPoints')">Plus de points = 🏆 1er 🏆</button>
 
-        <button onclick="choisirClassement('plusPoints')">
-            Plus de points = 🏆 1er 🏆
-        </button>
-
-        <button onclick="choisirClassement('moinsPoints')">
-            Moins de points = 🏆 1er 🏆
-        </button>
-
+        <button onclick="choisirClassement('moinsPoints')">Moins de points = 🏆 1er 🏆</button>
     </section>
 
     <section id="calcul" class="cache">
+        <h2>Calcul des points</h2>
 
-        <h2>
-            Calcul des points
-        </h2>
-
-        <!--
-            Les cartes des joueurs seront automatiquement
-            créées par JavaScript dans cette zone.
-        -->
-
+        <!-- Les cartes des joueurs seront automatiquement créées par JavaScript dans cette zone. -->
         <div id="listeScores">
-
         </div>
-
     </section>
 
-    <!-- ==========================================================
-                             RESULTAT FINAL
-    =========================================================== -->
-    <section
-            id="resultat"
-            class="cache">
 
-        <h2>
-            Résultat
-        </h2>
+    <!-- ==========================================================
+                          RESULTAT FINAL
+    =========================================================== -->
+    <section id="resultat" class="cache">
+        <h2>Résultat</h2>
 
         <p id="texteResultat">
         </p>
     </section>
 
+
     <!-- ==========================================================
-                             BOUTON RETOUR
+                          BOUTON RETOUR
     =========================================================== -->
-    <button
-            id="retour"
-            onclick="retour()"
-            class="cache">
-        ⬅ Retour
-    </button>
+    <button id="retour" onclick="retour()" class="cache">⬅ Retour</button>
+
 
     <!-- ==========================================================
-                    PAVE NUMERIQUE
-=========================================================== -->
-
-    <!--div-- id="paveNumerique">
-
-        <h2 id="titrePave">
-            Ajouter des points
-        </h2>
+                         PAVE NUMERIQUE
+    =========================================================== -->
+    <div id="paveNumerique">
+        <h2 id="titrePave">Ajouter des points</h2>
 
         <div id="valeurPave">
             0
@@ -237,13 +166,11 @@
             <button onclick="touchePave(0)">0</button>
             <button onclick="validerPave()">✓</button>
         </div>
-        <button onclick="fermerPave()">
-            Annuler
-        </button>
 
-    </div-->
-
+        <button onclick="fermerPave()">Annuler</button>
+    </div>
 </main>
+
 
 <script src="script.js"></script>
 
