@@ -104,29 +104,7 @@ function continuer(){
     }
 
     if(modeChoisi === "calcul"){
-
-        typeClassement = prompt(
-            "Quel type de classement ?\n\n" +
-            "1 = Plus de points  (classement croissant)= 1er\n" +
-            "2 = Moins de points (classement décroissant) = 1er"
-        );
-
-        if(typeClassement === "1"){
-            typeClassement = "plusPoints";
-        }
-        else if(typeClassement === "2"){
-            typeClassement = "moinsPoints";
-        }
-        else{
-            alert("Choix invalide");
-            return;
-        }
-
-        document
-            .getElementById("calcul")
-            .style.display = "block";
-
-        afficherCalcul();
+        document.getElementById("choixClassement").style.display = "block";
     }
 }
 
@@ -134,122 +112,87 @@ function continuer(){
                     SYSTEME DE TIRAGE
 ===================================================== */
 function dessinerRoue(){
-    let canvas =
-        document.getElementById("roue");
 
-    let ctx =
-        canvas.getContext("2d");
+    let canvas = document.getElementById("roue");
+    let ctx = canvas.getContext("2d");
 
     let centre = 200;
-
     let rayon = 200;
-    ctx.clearRect(
-        0,
-        0,
-        400,
-        400
-    );
 
-    let angle =
-        (Math.PI * 2) / joueurs.length;
+    ctx.clearRect(0, 0, 400, 400);
 
-    joueurs.forEach((nom,index)=>{
+    let angle = (Math.PI * 2) / joueurs.length;
 
-        let debut =
-            index * angle;
+    joueurs.forEach((nom, index) => {
 
-        let fin =
-            debut + angle;
+        let debut = -Math.PI / 2 - angle / 2 + index * angle;
+
+        let fin = debut + angle;
 
         ctx.beginPath();
-        ctx.moveTo(
-            centre,
-            centre
-        );
+        ctx.moveTo(centre,centre);
 
-        ctx.arc(
-            centre,
-            centre,
-            rayon,
-            debut,
-            fin
-        );
-
-        ctx.fillStyle =
-            `hsl(${index*50},70%,60%)`;
+        ctx.arc(centre, centre, rayon, debut, fin);
+        ctx.fillStyle = `hsl(${index * 50},70%,60%)`;
         ctx.fill();
         ctx.save();
-        ctx.translate(
-            centre,
-            centre
-        );
 
-        ctx.rotate(
-            debut + angle/2
-        );
-
+        ctx.translate(centre,centre);
+        ctx.rotate(debut + angle / 2);
         ctx.textAlign = "right";
         ctx.fillStyle = "black";
         ctx.font = "18px Arial";
-
-        ctx.fillText(
-            nom,
-            180,
-            5
-        );
+        ctx.fillText(nom, 180, 5);
         ctx.restore();
     });
 }
 
 function lancerTirage(){
-    let index =
-        Math.floor(
-            Math.random()*joueurs.length
-        );
 
-    gagnant =
-        joueurs[index];
+    let index = Math.floor(Math.random() * joueurs.length);
+    gagnant = joueurs[index];
+    
+    let part = 360 / joueurs.length;
+    let positionVoulue = -(index * part);
+    let rotationActuelle = rotation % 360;
+    let difference = positionVoulue - rotationActuelle;
 
-    let part =
-        360 / joueurs.length;
+    if(difference < 0){
+        difference += 360;
+    }
 
-    let angleGagnant =
-        index * part + part / 2;
-    rotation +=
-        (5 * 360)
-        +
-        (360 - angleGagnant);
+    rotation += (5 * 360) + difference;
+    let roue = document.getElementById("roue");
+    roue.classList.remove("zoom");
+    roue.style.transition = "transform 5s cubic-bezier(.15,.8,.25,1)";
+    roue.style.transform = `rotate(${rotation}deg)`;
 
-    let roue =
-        document.getElementById("roue");
-    roue.style.transition =
-        "transform 5s cubic-bezier(.15,.8,.25,1)";
-    roue.style.transform =
-        `rotate(${rotation}deg)`;
-
-    setTimeout(()=>{
+    setTimeout(() => {
         roue.classList.add("zoom");
-        document
-            .getElementById("gagnant")
-            .textContent =
-            "🎉 Gagnant : " + gagnant;
+        document.getElementById("gagnant").textContent = "🎉 Gagnant : " + gagnant;
 
-        // Si le mode choisi est "complet",
-        // on prépare ensuite le calcul.
         if(modeChoisi === "complet"){
             document.getElementById("continuerTirage").style.display = "block";
         }
-    },5200);
-
+    }, 5200);
 }
 
 /* =====================================================
                     SYSTEME DE CALCUL
 ===================================================== */
+//choix du type de classement
+function choisirClassement(type){
+
+    typeClassement = type;
+    document.getElementById("choixClassement").style.display = "none";
+    document.getElementById("calcul").style.display = "block";
+
+    afficherCalcul();
+}
+
 // Création de l'affichage des joueurs
 function afficherCalcul(){
-    // Récupération de la zone contenant
-    // toutes les cartes
+    // Récupération de la zone contenant toutes les cartes
     let listeScores =
         document.getElementById("listeScores");
     // On vide la zone avant de la recréer
@@ -260,48 +203,34 @@ function afficherCalcul(){
         // Création de la carte
         let carte =
             document.createElement("div");
-        carte.className =
-            "carteJoueur";
+        carte.className = "carteJoueur";
 
         // Création du nom et du classement
-        let nom =
-            document.createElement("div");
-        nom.className =
-            "nomJoueurScore";
-        nom.innerHTML =
-            `<span class="classementJoueur">
+        let nom = document.createElement("div");
+        nom.className = "nomJoueurScore";
+        nom.innerHTML = `<span class="classementJoueur">
                 ${index + 1}️⃣
             </span>
             ${joueur}`;
 
         // Création du score
-        let score =
-            document.createElement("div");
-        score.className =
-            "scoreJoueur";
+        let score = document.createElement("div");
+        score.className = "scoreJoueur";
         score.textContent = "0";
 
         // Création de la zone des boutons
-        let boutons =
-            document.createElement("div");
-        boutons.className =
-            "boutonsScore";
+        let boutons = document.createElement("div");
+        boutons.className = "boutonsScore";
 
         // Bouton soustraction
-        let boutonMoins =
-            document.createElement("button");
+        let boutonMoins = document.createElement("button");
         boutonMoins.textContent = "➖";
-        boutonMoins.onclick = function(){
-            retirerPoints(index);
-        };
+        boutonMoins.onclick = function(){retirerPoints(index);};
 
         // Bouton addition
-        let boutonPlus =
-            document.createElement("button");
+        let boutonPlus = document.createElement("button");
         boutonPlus.textContent = "➕";
-        boutonPlus.onclick = function(){
-            ajouterPoints(index);
-        };
+        boutonPlus.onclick = function(){ajouterPoints(index);};
 
         // Assemblage des boutons
         boutons.appendChild(boutonMoins);
@@ -357,11 +286,7 @@ function calculerClassement() {
     for(let i = 0; i < cartes.length; i++) {
         let nom = joueurs[i];
         let score = Number(cartes[i].querySelector(".scoreJoueur").textContent);
-        scoresJoueurs.push({
-            index: i,
-            nom: nom,
-            score: score
-        });
+        scoresJoueurs.push({index: i, nom: nom, score: score});
     }
     //classemnt croissant (plus de point 1er)
     if(typeClassement === "plusPoints") {
@@ -379,24 +304,7 @@ function calculerClassement() {
 }
 
 function passerAuCalcul(){
-    typeClassement = prompt(
-        "Quel type de classement ?\n\n" +
-        "1 = Plus de points = 1er\n" +
-        "2 = Moins de points = 1er"
-    );
-
-    if(typeClassement === "1"){
-        typeClassement = "plusPoints";
-    }
-
-    else if(typeClassement === "2"){
-        typeClassement = "moinsPoints";}
-
-    else{
-        alert("Choix invalide");return;}
 
     document.getElementById("tirage").style.display = "none";
-    document.getElementById("calcul").style.display = "block";
-
-    afficherCalcul();
+    document.getElementById("choixClassement").style.display = "block";
 }

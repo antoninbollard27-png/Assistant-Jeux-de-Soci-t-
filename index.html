@@ -148,6 +148,21 @@
     <!-- ==========================================================
                              CALCUL DES POINTS
     =========================================================== -->
+    <section id="choixClassement" class="cache">
+
+        <h2>
+            Choisir le classement
+        </h2>
+
+        <button onclick="choisirClassement('plusPoints')">
+            Plus de points = 🏆 1er 🏆
+        </button>
+
+        <button onclick="choisirClassement('moinsPoints')">
+            Moins de points = 🏆 1er 🏆
+        </button>
+
+    </section>
 
     <section id="calcul" class="cache">
 
@@ -190,6 +205,43 @@
             class="cache">
         ⬅ Retour
     </button>
+
+    <!-- ==========================================================
+                    PAVE NUMERIQUE
+=========================================================== -->
+
+    <div id="paveNumerique">
+
+        <h2 id="titrePave">
+            Ajouter des points
+        </h2>
+
+        <div id="valeurPave">
+            0
+        </div>
+
+        <div id="touchesPave">
+            <button onclick="touchePave(1)">1</button>
+            <button onclick="touchePave(2)">2</button>
+            <button onclick="touchePave(3)">3</button>
+
+            <button onclick="touchePave(4)">4</button>
+            <button onclick="touchePave(5)">5</button>
+            <button onclick="touchePave(6)">6</button>
+
+            <button onclick="touchePave(7)">7</button>
+            <button onclick="touchePave(8)">8</button>
+            <button onclick="touchePave(9)">9</button>
+
+            <button onclick="effacerPave()">⌫</button>
+            <button onclick="touchePave(0)">0</button>
+            <button onclick="validerPave()">✓</button>
+        </div>
+        <button onclick="fermerPave()">
+            Annuler
+        </button>
+
+    </div>
 
 </main>
 
